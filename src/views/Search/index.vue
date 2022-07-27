@@ -2,7 +2,12 @@
   <div>
     <div class="top">
       <van-icon name="arrow-left" />
-      <van-search show-action label="上海" placeholder="请输入小区或地址">
+      <van-search
+        show-action
+        :label="name"
+        placeholder="请输入小区或地址"
+        @click="$router.push('/city')"
+      >
         <template #left-icon>
           <div>
             <van-icon name="arrow-down" />
@@ -15,40 +20,94 @@
     </div>
     <!-- 中间部分的 -->
     <div class="middle">
-      <van-grid direction="horizontal">
-        <van-grid-item>
-          <span class="text">区域</span>
-          <van-icon class="icon" name="arrow-down"></van-icon>
-        </van-grid-item>
-        <van-grid-item>
-          <span class="text">方式</span>
-          <van-icon class="icon" name="arrow-down"></van-icon>
-        </van-grid-item>
-        <van-grid-item>
-          <template #default>
-            <span class="text">租金</span>
-            <van-icon class="icon" name="arrow-down"></van-icon>
-          </template>
-        </van-grid-item>
-        <van-grid-item>
-          <span class="text">筛选</span>
-          <van-icon class="icon" name="arrow-down"></van-icon>
-        </van-grid-item>
-      </van-grid>
+      <van-dropdown-menu>
+        <van-dropdown-item title="区域">
+          <van-picker
+            show-toolbar
+            :columns="areaList"
+            toolbar-position="bottom"
+          />
+        </van-dropdown-item>
+        <van-dropdown-item title="方式">
+          <van-picker
+            show-toolbar
+            :columns="rentTypeList"
+            toolbar-position="bottom"
+          />
+        </van-dropdown-item>
+        <van-dropdown-item title="租金">
+          <van-picker
+            show-toolbar
+            :columns="rentPrice"
+            toolbar-position="bottom"
+          />
+        </van-dropdown-item>
+        <van-dropdown-item title="筛选" @click="show = true">
+          <van-popup v-model="show">内容</van-popup>
+        </van-dropdown-item>
+      </van-dropdown-menu>
     </div>
+    <list
+      v-for="item in houseList"
+      :key="item.houseCode"
+      :imgsrc="item.houseImg"
+      :title="item.title"
+      :price="item.price"
+      :location="item.desc"
+      :tags="item.tags"
+    ></list>
   </div>
 </template>
 
 <script>
-import { getSearchHouseListAPI } from "@/api";
+import { getSearchHouseListAPI, getListAPI } from "@/api";
+import list from "@/components/list.vue";
 export default {
+  data() {
+    return {
+      name: this.$store.state.name,
+      id: this.$store.state.id,
+      rentTypeList: [],
+      areaList: [{ text: "区域" }, { text: "地铁" }],
+      rentPrice: [],
+      show: false,
+      houseList: [],
+    };
+  },
+  components: { list },
   mounted() {
     this.getList();
   },
   methods: {
     async getList() {
-      const res = await getSearchHouseListAPI();
-      console.log(res);
+      console.log(this.$store.state.id);
+      const res = await getSearchHouseListAPI(this.id);
+      const res2 = await getListAPI(this.id);
+      console.log(res, res2);
+      this.houseList = res2.data.body.list;
+      res.data.body.rentType.forEach((item) =>
+        this.rentTypeList.push(item.label)
+      );
+      const arr = res.data.body.area.children;
+      const newArr = this.dealMsg(arr);
+      const arr2 = res.data.body.subway.children;
+      const newArr2 = this.dealMsg(arr2);
+      this.areaList[0].children = newArr;
+      this.areaList[1].children = newArr2;
+      res.data.body.price.forEach((item) => this.rentPrice.push(item.label));
+    },
+    dealMsg(arr) {
+      const newArr = [];
+      arr.forEach((item, index) => {
+        if (!item.children) {
+          newArr[index] = { text: item.label };
+          newArr[index].children = [{ text: "" }];
+        } else {
+          newArr[index] = { text: item.label };
+          newArr[index].children = this.dealMsg(item.children);
+        }
+      });
+      return newArr;
     },
   },
 };

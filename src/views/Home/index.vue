@@ -6,7 +6,11 @@
           <img :src="`http://liufusong.top:8080${item.imgSrc}`" alt="" />
         </van-swipe-item>
       </van-swipe>
-      <van-search show-action label="上海" placeholder="请输入小区或地址">
+      <van-search
+        show-action
+        :label="$route.query.name || '上海'"
+        placeholder="请输入小区或地址"
+      >
         <template #left-icon>
           <div>
             <van-icon name="arrow-down" @click="chooseCity" />

@@ -64,7 +64,7 @@ export default {
         })
         .then(() => {
           localStorage.removeItem("Token");
-          // this.token = "";
+          this.token = "";
           this.$router.push("/layout/my");
         })
         .catch(() => {});

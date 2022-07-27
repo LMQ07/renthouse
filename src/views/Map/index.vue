@@ -1,15 +1,15 @@
 <template>
   <div>
     <van-nav-bar title="地图找房" left-arrow @click-left="onClickLeft" />
-    <div></div>
-    <baidu-map id="container"> </baidu-map>
+    <div id="container"></div>
+    <!-- <baidu-map></baidu-map> -->
   </div>
 </template>
 
 <script>
 export default {
   mounted() {
-    // this.getMap();
+    this.getMap();
   },
   methods: {
     onClickLeft() {

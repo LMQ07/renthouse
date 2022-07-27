@@ -3,24 +3,25 @@
     <van-sticky>
       <van-nav-bar title="城市列表" left-arrow @click-left="onClickLeft" />
     </van-sticky>
-    <van-index-bar :index-list="indexList" highlight-color="#21b97a">
+    <van-index-bar
+      :index-list="indexList"
+      highlight-color="#21b97a"
+      @select="btn(index)"
+    >
       <van-index-anchor index="#" class="title">当前城市</van-index-anchor>
-      <van-cell title="上海" />
+      <van-cell title="上海" @click="btn('上海', 'AREA|dbf46d32-7e76-1196')" />
       <van-index-anchor index="热">热门城市</van-index-anchor>
-      <van-cell title="北京" />
-      <van-cell title="广州" />
-      <van-cell title="上海" />
-      <!-- <van-cell v-for="item in filterList" :key="item.key" title="深圳" /> -->
-      <!-- <van-index-anchor
-        v-for="item in filterCityList"
-        :index="item"
-        :key="item"
-      /> -->
+      <van-cell title="北京" @click="btn('北京', 'AREA|88cff55c-aaa4-e2e0')" />
+      <van-cell title="广州" @click="btn('广州', 'AREA|e4940177-c04c-383d')" />
+      <van-cell title="上海" @click="btn('上海', 'AREA|dbf46d32-7e76-1196')" />
       <div v-for="item in filterList" :key="item.key">
         <van-index-anchor :index="item.key">{{ item.key }}</van-index-anchor>
         <template>
           <div v-for="item in item.value" :key="item.pinyin">
-            <van-cell :title="item.label" />
+            <van-cell
+              :title="item.label"
+              @click="btn(item.label, item.value)"
+            />
           </div>
         </template>
       </div>
@@ -102,10 +103,10 @@ export default {
         "Y",
         "Z",
       ],
-      Alist: [],
-      Blist: [],
-      Clist: [],
-      Dlist: [],
+      // Alist: [],
+      // Blist: [],
+      // Clist: [],
+      // Dlist: [],
       filterList: [],
     };
   },
@@ -137,6 +138,18 @@ export default {
         });
       }
       this.filterList = filterList.sort((a, b) => a.key.localeCompare(b.key));
+    },
+    btn(name, value) {
+      console.log(value);
+      this.$store.commit("changeMsg", { name: name, id: value });
+      this.$router.push({
+        path: "/layout/home/",
+        query: {
+          name: name,
+          id: value,
+        },
+      });
+      console.log(this.$store.state);
     },
   },
 };

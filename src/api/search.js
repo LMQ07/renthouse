@@ -1,7 +1,16 @@
 import request from "@/utils/request";
 
-export const getSearchHouseList = (params) =>
+export const getSearchHouseList = (id) =>
   request({
-    url: "/house",
-    params,
+    url: `/houses/condition`,
+    params: {
+      id,
+    },
+  });
+export const getList = (id) =>
+  request({
+    url: `/houses`,
+    params: {
+      id,
+    },
   });
