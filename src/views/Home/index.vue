@@ -40,7 +40,10 @@
       <div class="group-msg">
         <div v-for="item in groupList" :key="item.id">
           <img :src="`http://liufusong.top:8080${item.imgSrc}`" alt="" />
-          <h4>{{ item.title }}</h4>
+          <div class="name">
+            <p>{{ item.title }}</p>
+            <p>{{ item.desc }}</p>
+          </div>
         </div>
       </div>
     </div>
@@ -136,7 +139,12 @@ export default {
   width: 50px;
   height: 50px;
 }
-.group-msg div h4 {
-  font-size: 18px;
+.group-msg div p {
+  font-size: 14px;
+}
+.name {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 </style>

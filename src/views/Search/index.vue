@@ -26,6 +26,8 @@
             show-toolbar
             :columns="areaList"
             toolbar-position="bottom"
+            @confirm="getMsg"
+            @cancel="calcel"
           />
         </van-dropdown-item>
         <van-dropdown-item title="方式">
@@ -33,6 +35,8 @@
             show-toolbar
             :columns="rentTypeList"
             toolbar-position="bottom"
+            @confirm="getMsg"
+            @cancel="calcel"
           />
         </van-dropdown-item>
         <van-dropdown-item title="租金">
@@ -40,22 +44,27 @@
             show-toolbar
             :columns="rentPrice"
             toolbar-position="bottom"
+            @confirm="getMsg"
+            @cancel="calcel"
           />
         </van-dropdown-item>
         <van-dropdown-item title="筛选" @click="show = true">
-          <van-popup v-model="show">内容</van-popup>
+          <van-popup v-model="show" position="left"></van-popup>
         </van-dropdown-item>
       </van-dropdown-menu>
     </div>
-    <list
-      v-for="item in houseList"
-      :key="item.houseCode"
-      :imgsrc="item.houseImg"
-      :title="item.title"
-      :price="item.price"
-      :location="item.desc"
-      :tags="item.tags"
-    ></list>
+    <!-- 列表 -->
+    <div>
+      <list
+        v-for="item in houseList"
+        :key="item.houseCode"
+        :imgsrc="item.houseImg"
+        :title="item.title"
+        :price="item.price"
+        :location="item.desc"
+        :tags="item.tags"
+      ></list>
+    </div>
   </div>
 </template>
 
@@ -109,6 +118,10 @@ export default {
       });
       return newArr;
     },
+    getMsg(value) {
+      console.log(value);
+    },
+    calcel() {},
   },
 };
 </script>
@@ -132,5 +145,11 @@ export default {
 
 .middle .icon {
   font-size: 12px;
+}
+.van-popup--left {
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100% !important;
 }
 </style>
