@@ -20,8 +20,8 @@
       </div>
     </div>
     <van-grid :column-num="3" :border="false" clickable>
-      <van-grid-item icon="star-o" text="我的收藏" to="/collect" />
-      <van-grid-item icon="wap-home-o" text="我的出租" to="/rent" />
+      <van-grid-item icon="star-o" text="我的收藏" @click="collectBtn" />
+      <van-grid-item icon="wap-home-o" text="我的出租" @click="rentBtn" />
       <van-grid-item icon="clock-o" text="看房记录" />
       <van-grid-item icon="notes-o" text="成为房主" />
       <van-grid-item icon="friends-o" text="个人资料" />
@@ -68,6 +68,18 @@ export default {
           this.$router.push("/layout/my");
         })
         .catch(() => {});
+    },
+    collectBtn() {
+      if (!this.token) {
+        return this.$router.push("/login");
+      }
+      this.$router.push("/collect");
+    },
+    rentBtn() {
+      if (!this.token) {
+        return this.$router.push("/login");
+      }
+      this.$router.push("/rent");
     },
   },
 };

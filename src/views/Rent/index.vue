@@ -2,8 +2,8 @@
   <div>
     <van-nav-bar title="房屋管理" left-arrow @click-left="onClickLeft" />
     <list
-      v-for="item in rentList"
-      :key="item.houseCode"
+      v-for="(item, index) in rentList"
+      :key="index"
       :imgsrc="item.houseImg"
       :price="item.price"
       :location="item.desc"
@@ -34,6 +34,7 @@ export default {
       const res = await getHouseListAPI();
       console.log(res);
       this.rentList = res.data.body;
+      console.log(this.rentList);
     },
   },
 };

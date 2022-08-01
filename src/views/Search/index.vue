@@ -29,6 +29,7 @@
             @confirm="getMsg"
             @cancel="calcel"
           />
+          <!-- <Vanpicker :title="areaList"></Vanpicker> -->
         </van-dropdown-item>
         <van-dropdown-item title="方式">
           <van-picker
@@ -38,6 +39,7 @@
             @confirm="getMsg"
             @cancel="calcel"
           />
+          <!-- <Vanpicker :title="rentTypeList"></Vanpicker> -->
         </van-dropdown-item>
         <van-dropdown-item title="租金">
           <van-picker
@@ -47,10 +49,10 @@
             @confirm="getMsg"
             @cancel="calcel"
           />
+          <!-- <Vanpicker :title="rentPrice"></Vanpicker> -->
         </van-dropdown-item>
-        <van-dropdown-item title="筛选" @click="show = true">
-          <van-popup v-model="show" position="left"></van-popup>
-        </van-dropdown-item>
+        <van-dropdown-item title="筛选" @open="showTime"></van-dropdown-item>
+        <!-- 筛选部分的弹框 -->
       </van-dropdown-menu>
     </div>
     <!-- 列表 -->
@@ -70,6 +72,7 @@
 
 <script>
 import { getSearchHouseListAPI, getListAPI } from "@/api";
+// import Vanpicker from "./components/Vanpicker.vue";
 import list from "@/components/list.vue";
 export default {
   data() {
@@ -118,10 +121,9 @@ export default {
       });
       return newArr;
     },
-    getMsg(value) {
-      console.log(value);
-    },
+    btn() {},
     calcel() {},
+    getMsg() {},
   },
 };
 </script>
